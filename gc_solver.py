@@ -15,10 +15,21 @@ def solve(adj_nodes, adj_edges):
 
     for i in adj_nodes:
       dqm.add_variable(nurses, label=i)
-    for i, p in enumerate(adj_nodes):
-      dqm.set_linear(p, range(nurses))
+    
     for i0,i1 in adj_edges:
         dqm.set_quadratic(i0,i1, {(c,c): lagrange for c in range(nurses)})
+    
+    shifts_per_nurse = days * shifts // nurses
+    
+    for i in range(nurses):
+        for index, j in enumerate(adj_nodes):
+            
+            dqm.set_linear_case(j, i, dqm.get_linear_case(j, i) - lagrange*(2*shifts_per_nurse+1))
+            
+            for k_index in range(index+1, len(adj_nodes)):
+                k = adj_nodes[k_index]
+                dqm.set_quadratic_case(j, i, k, i, lagrange*(dqm.get_quadratic_case(j, i, k, i) + 2))
+
 
     sampler= LeapHybridDQMSampler(token=API_TOKEN)
     sampleset= sampler.sample_dqm(dqm, time_limit=10)
