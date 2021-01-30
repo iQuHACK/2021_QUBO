@@ -22,6 +22,7 @@ def solve(adj_nodes, adj_edges):
 
     sampler= LeapHybridDQMSampler(token=API_TOKEN)
     sampleset= sampler.sample_dqm(dqm, time_limit=10)
+    print(sampleset)
     sample=sampleset.first.sample
     energy = sampleset.first.energy
     
@@ -52,3 +53,5 @@ if __name__ == "__main__":
     
     valid = verify_solution(sample, adj_edges)
     print("Solution validity: ", valid)
+    
+ 
