@@ -39,23 +39,25 @@ if __name__ == "__main__":
     print("Nodes: ", adj_nodes)
     print("Edges: ", adj_edges)
     
-for i in adj_nodes:
-  dqm.add_variable(N, label=i)
-for i in adj:
-  dqm.set_linear(p, range(N))
-for i0,i1 in adj_edges:
-    dqm.set_quadratic(i0,i1, {(c,c): lagrange for c in range(N)})
+    for i in adj_nodes:
+      dqm.add_variable(N, label=i)
+    for i in adj:
+      dqm.set_linear(p, range(N))
+    for i0,i1 in adj_edges:
+        dqm.set_quadratic(i0,i1, {(c,c): lagrange for c in range(N)})
+
+    sampler= LeapHybridDQMSampler()
+    sampleset= sampler.sample_dqm(dqm)
+    sample=sampleset.first.sample
+    energy = sampleset.first.energy
+    valid = True
     
-sampler= LeapHybridDQMSampler()
-sampleset= sampler.sample_dqm(dqm)
-sample=sampleset.first.sample
-energy = sampleset.first.energy
-valid = True
-for edge in adj_edges:
-        i, j=edge
-        if sample[i]== sample[j]:
-            valid = False
-            break
+    for edge in adj_edges:
+            i, j=edge
+            if sample[i]== sample[j]:
+                valid = False
+                break
+                
     print("Solution: ", sample)
     print("Solution energy:", energy)
     print("Solution validity: ", valid)
