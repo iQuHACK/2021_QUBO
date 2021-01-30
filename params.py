@@ -1,0 +1,4 @@
+LAGRANGE = 2
+NURSES = 3
+DAYS = 3
+SHIFTS = 3

@@ -1,8 +1,10 @@
 from dimod import DiscreteQuadraticModel
 from dwave.system import LeapHybridDQMSampler
-nurses = 3
-days = 3
-shifts = 3
+
+# lagrange = 2
+# nurses = 3
+# days = 3
+# shifts = 3
 
 
 def nsp_to_graph_coloring(nurses, days, shifts):
@@ -32,35 +34,37 @@ if __name__ == "__main__":
     print("Number of days: ", days)
     print("Shifts: ", list(range(shifts)))
     
-    adj = nsp_to_graph_coloring(nurses, days, shifts)
-    print("Adjacency list: ", adj)
+#     adj = nsp_to_graph_coloring(nurses, days, shifts)
+#     print("Adjacency list: ", adj)
     
-    adj_nodes, adj_edges = adj_to_nodes_and_edges(adj)
-    print("Nodes: ", adj_nodes)
-    print("Edges: ", adj_edges)
+#     adj_nodes, adj_edges = adj_to_nodes_and_edges(adj)
+#     print("Nodes: ", adj_nodes)
+#     print("Edges: ", adj_edges)
     
-    for i in adj_nodes:
-      dqm.add_variable(N, label=i)
-    for i in adj:
-      dqm.set_linear(p, range(N))
-    for i0,i1 in adj_edges:
-        dqm.set_quadratic(i0,i1, {(c,c): lagrange for c in range(N)})
+#     dqm = DiscreteQuadraticModel()
 
-    sampler= LeapHybridDQMSampler()
-    sampleset= sampler.sample_dqm(dqm)
-    sample=sampleset.first.sample
-    energy = sampleset.first.energy
-    valid = True
+#     for i in adj_nodes:
+#       dqm.add_variable(nurses, label=i)
+#     for i, p in enumerate(adj_nodes):
+#       dqm.set_linear(p, range(nurses))
+#     for i0,i1 in adj_edges:
+#         dqm.set_quadratic(i0,i1, {(c,c): lagrange for c in range(nurses)})
+
+#     sampler= LeapHybridDQMSampler(token="DEV-b2e2ec75f96b1660c40a2758aa1fe6f94e971898")
+#     sampleset= sampler.sample_dqm(dqm, time_limit=10)
+#     sample=sampleset.first.sample
+#     energy = sampleset.first.energy
+#     valid = True
     
-    for edge in adj_edges:
-            i, j=edge
-            if sample[i]== sample[j]:
-                valid = False
-                break
+#     for edge in adj_edges:
+#             i, j=edge
+#             if sample[i]== sample[j]:
+#                 valid = False
+#                 break
                 
-    print("Solution: ", sample)
-    print("Solution energy:", energy)
-    print("Solution validity: ", valid)
+#     print("Solution: ", sample)
+#     print("Solution energy:", energy)
+#     print("Solution validity: ", valid)
             
 
     

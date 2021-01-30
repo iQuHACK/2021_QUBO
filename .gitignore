@@ -1,3 +1,5 @@
+config.py
+
 ## VIM
 ### Swap (but keep svg files)
 [._]*.s[a-v][a-z]
