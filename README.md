@@ -1,5 +1,3 @@
-Hello
-
 # Welcome to iQuHACK 2021!
 Check out some info in the [event's repository](https://github.com/iQuHACK/2021) to get started.
 
