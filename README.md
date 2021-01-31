@@ -27,7 +27,9 @@ above are met.
 
 Run the following command witht the appropriate command line arguments:
 
-`python gc_solver.py [num_nurses] [num_days] [num_shifts] [nurses_per_shift] [conflict1] [conflict2] ... [conflictn]`
+```python
+python gc_solver.py [num_nurses] [num_days] [num_shifts] [nurses_per_shift] [conflict1] [conflict2] ... [conflictn]
+```
 
 For example, in order to compute a scheduling for 15 nurses, on 2 days, with 3 shifts/day, and requiring 3 nurses/shift,
 you would have to run:
