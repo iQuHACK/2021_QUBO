@@ -27,21 +27,29 @@ above are met.
 
 Run the following command witht the appropriate command line arguments:
 
-`python gc_solver.py [num_nurses] [num_days] [num_shifts] [nurses_per_shift] [conflict1] [conflict2] ... [conflictn]`
+```python
+python gc_solver.py [num_nurses] [num_days] [num_shifts] [nurses_per_shift] [conflict1] [conflict2] ... [conflictn]
+```
 
 For example, in order to compute a scheduling for 15 nurses, on 2 days, with 3 shifts/day, and requiring 3 nurses/shift,
 you would have to run:
 
-`python gc_solver.py 15 2 3 3`
+```python
+python gc_solver.py 15 2 3 3
+```
 
 You can also add nurses that are enemies. Let's say that nurses 0,1,2,3, and 4 are all enemies with each other. In order
 to obtain a schedule that does its best not to assign these nurses to the same shift, you would run:
 
-`python gc_solver.py 15 2 3 3 0,1,2,3,4`
+```python 
+python gc_solver.py 15 2 3 3 0,1,2,3,4
+```
 
 There can also be more than one group of enemies, so let's say that besides nurses 0,1,2,3,4, we also have that nurses 5,6,7,8, and 9 are also enemies with each other ( but nurses 0,5 or 1,6 etc are ok with each other ). To express this, run:
 
-`python gc_solver.py 15 2 3 3 0,1,2,3,4 5,6,7,8,9`
+```python 
+gc_solver.py 15 2 3 3 0,1,2,3,4 5,6,7,8,9
+```
 
 Note that nurses within a conflicting group need to be comma-separated.
 
