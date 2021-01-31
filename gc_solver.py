@@ -8,6 +8,7 @@ lagrange = LAGRANGE
 nurses = NURSES
 days = DAYS
 shifts = SHIFTS
+nurses_per_shift = NURSES_PER_SHIFT
 
 def solve(adj_nodes, adj_edges):
 
@@ -32,8 +33,8 @@ def solve(adj_nodes, adj_edges):
 
 
     sampler= LeapHybridDQMSampler(token=API_TOKEN)
-    sampleset= sampler.sample_dqm(dqm, time_limit=10)
-    print(sampleset)
+    sampleset= sampler.sample_dqm(dqm, time_limit=320)
+    
     sample=sampleset.first.sample
     energy = sampleset.first.energy
     
@@ -43,20 +44,41 @@ def solve(adj_nodes, adj_edges):
 def verify_solution(sample, adj_edges):
     valid = True
     
+    # makes sure nurses don't work more than one shift per day
+    # as well as no back-to-back sessions
     for edge in adj_edges:
             i, j=edge
             if sample[i]== sample[j]:
                 valid = False
                 break
-    return valid
+                
+    freq = {}
+    for var, nurse in sample.items():
+        freq[nurse] = freq.get(nurse, 0) + 1
     
-if __name__ == "__main__":
-    adj = nsp_to_graph_coloring(nurses, days, shifts)
-    print("Adjacency list: ", adj)
+    # makes sure that workload is evenly distributed abong nurses
+    for nurse, num_shifts in freq.items():
+        if num_shifts < MIN_SHIFTS or num_shifts > MAX_SHIFTS:
+            valid = False
+            break
+    return valid
 
+def compress_solution(sample):
+    compressed = {}
+    for d in range(days):
+        for s in range(shifts):
+            
+            day_and_shift = f"d{d}_s{s}"
+            nurses = [sample[other_var] for other_var in [f"l{layer}_{day_and_shift}" for layer in range(nurses_per_shift)]]
+            
+            compressed[day_and_shift] = nurses
+    return compressed
+
+
+if __name__ == "__main__":
+    adj = nsp_to_graph_coloring(NURSES, DAYS, SHIFTS, NURSES_PER_SHIFT)
+    
     adj_nodes, adj_edges = adj_to_nodes_and_edges(adj)
-    print("Nodes: ", adj_nodes)
-    print("Edges: ", adj_edges)
     
     sample, energy = solve(adj_nodes, adj_edges)
     print("Solution: ", sample)
@@ -64,5 +86,9 @@ if __name__ == "__main__":
     
     valid = verify_solution(sample, adj_edges)
     print("Solution validity: ", valid)
+    
+    print("Compressed solution: ", compress_solution(sample))
+    
+    
     
  
