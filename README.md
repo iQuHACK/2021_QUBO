@@ -77,12 +77,12 @@ To ensure that the nurses would only have one shift per day, we created edges be
 with a given day. These edges are graphical representations of the quadratic terms of our problem, so they will
 be penalized by an appropriate lagrange factor gamma:
 
-![Constraint 3](constraint3.png)
+![Constraint 3](docs_images/constraint3.png)
 
 To ensure that no nurse would be forced to endure a back to back shift, we also connected the last shift of a 
 given day to the first shift of the next day.
 
-![Constraint 4](constraint4.png)
+![Constraint 4](docs_images/constraint4.png)
 
 To get a fully manned shift, we added an optional constraint to allow multiple people to staff the same shift. 
 To do this, we created a duplicate of the entire graph for each working person per shift. So, if `NURSES_PER_SHIFT = 2`
@@ -92,6 +92,6 @@ In this sense, we projected the edges of each node ontp the second layer as well
 are connected to each other in the original graph, they will now also be connected to all the node for Day 1 in the
 copy of the graph. 
 
-![Constraint 1](constraint1.png)
+![Constraint 1](docs_images/constraint1.png)
 
     
